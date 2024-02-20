@@ -3,6 +3,8 @@ package com.example.roka;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -56,6 +58,7 @@ public class HelloController {
                 if (now > tt){
                     elbujik();
                 }
+                if (roka == 0) vege();
             }
         };
         timer.start();
@@ -150,4 +153,26 @@ public class HelloController {
         lbLoves.setText(loves + " lövés" + " / " + talalat + " találat");
     }
 
+    private void vege(){
+        felfed();
+        Alert uzenet = new Alert(Alert.AlertType.NONE);
+        uzenet.setHeaderText(null);
+        uzenet.setTitle("Game Over!");
+        String txt = String.format("%d lövésből %d talált, ami %d%%\n", loves, talalat, talalat*100/loves);
+        txt += String.format("%d rókából %d lett lelőve, ami %d%%", rokaMax, talalat, talalat*100/rokaMax);
+        uzenet.setContentText(txt);
+        uzenet.getButtonTypes().removeAll();
+        uzenet.getButtonTypes().add(new ButtonType("Újra"));
+        uzenet.setOnCloseRequest(e -> generalErdo());
+        uzenet.show();
+        timer.stop();
+    }
+
+    private void felfed(){
+        for (int i = 0; i < 16; i++){ for (int j = 0; j < 32; j++) {
+            ivTomb[i][j].setImage(icon[t[i][j]]);
+        }
+
+        }
+    }
 }
